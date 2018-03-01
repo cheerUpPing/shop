@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elon.mapper.OrderTradeDetailMapper">
+
+    <sql id="baseColumn">
+        id,children_order_no,parent_order_no,food_id,single_prince,bug_num,sum_money,parent_food_id,is_complete,shopper_nick_name,add_time
+    </sql>
+
+    <select id="selectAll" resultType="com.elon.entity.OrderTradeDetail">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM order_trade_detail
+    </select>
+
+    <select id="selectByParentOrderNo" parameterType="java.lang.String" resultType="com.elon.entity.OrderTradeDetail">
+        SELECT
+        otd.*,fd.food_name
+        FROM order_trade_detail otd LEFT JOIN food fd ON otd.food_id = fd.id  WHERE parent_order_no = #{parentOrderNo}
+    </select>
+
+    <update id="updateComplete">
+        UPDATE order_trade_detail SET is_complete = #{isComplete} WHERE children_order_no = #{childrenOrderNo}
+    </update>
+
+</mapper>

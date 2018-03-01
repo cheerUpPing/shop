@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elon.mapper.WxConfigMapper">
+
+    <sql id="baseColumn">
+        id,shopper_nick_name,app_id,mch_id,mch_key,add_time
+    </sql>
+
+    <select id="selectAll" resultType="com.elon.entity.WxConfig">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM wx_config
+    </select>
+    <select id="selectByNickName" parameterType="java.lang.String" resultType="com.elon.entity.WxConfig">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM wx_config WHERE shopper_nick_name = #{shopperNickName}
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.elon.entity.WxConfig">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM wx_config WHERE id = #{id}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM wx_config WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.elon.entity.WxConfig">
+        insert into wx_config
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="shopper_nick_name != null" >
+                shopper_nick_name,
+            </if>
+            <if test="app_id != null" >
+                app_id,
+            </if>
+            <if test="mch_id != null" >
+                mch_id,
+            </if>
+            <if test="mch_key != null" >
+                mch_key,
+            </if>
+            <if test="add_time != null" >
+                add_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="shopper_nick_name != null" >
+                #{shopper_nick_name},
+            </if>
+            <if test="app_id != null" >
+                #{app_id},
+            </if>
+            <if test="mch_id != null" >
+                #{mch_id},
+            </if>
+            <if test="mch_key != null" >
+                #{mch_key},
+            </if>
+            <if test="add_time != null" >
+                #{add_time},
+            </if>
+
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.elon.entity.WxConfig">
+        update wx_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopper_nick_name != null and shopper_nick_name != ''">
+                shopper_nick_name = #{shopper_nick_name},
+            </if>
+            <if test="app_id != null and app_id != ''">
+                app_id = #{app_id},
+            </if>
+            <if test="mch_id != null and mch_id != ''">
+                mch_id = #{mch_id},
+            </if>
+            <if test="mch_key != null and mch_key != ''">
+                mch_key = #{mch_key},
+            </if>
+            <if test="add_time != null and add_time != ''">
+                add_time = #{add_time},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+</mapper>

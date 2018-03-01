@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elon.mapper.ShopperMapper">
+
+    <sql id="baseColumn">
+        id,nick_name,telphone,pwd,really_name,shop_name,shop_address,major_work,last_login
+    </sql>
+
+    <select id="selectAll" resultType="com.elon.entity.Shopper">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM shopper
+    </select>
+    <select id="selectByNickName" parameterType="java.lang.String" resultType="com.elon.entity.Shopper">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM shopper WHERE nick_name = #{shopperNickName}
+    </select>
+
+</mapper>

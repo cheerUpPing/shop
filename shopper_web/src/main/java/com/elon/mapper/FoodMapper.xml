@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elon.mapper.FoodMapper">
+
+    <sql id="baseColumn">
+        id,food_name,food_desc,food_price,food_sale,food_order,parent_food_id,is_parent,shopper_nick_name,food_image_name,add_time
+    </sql>
+
+    <select id="selectAll" resultType="com.elon.entity.Food">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM food
+    </select>
+
+    <select id="selectByShopperNickName" parameterType="java.lang.String" resultType="com.elon.entity.Food">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM food WHERE shopper_nick_name = #{shopperNickName}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete FROM food WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.elon.entity.Food">
+        SELECT * FROM food WHERE id = #{id}
+    </select>
+
+    <select id="selectParentOrChildren" resultType="com.elon.entity.Food">
+        SELECT * FROM food WHERE shopper_nick_name = #{shopperNickName} AND is_parent = #{isParent}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.elon.entity.Food">
+        insert into food
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="food_name != null" >
+                food_name,
+            </if>
+            <if test="food_desc != null" >
+                food_desc,
+            </if>
+            <if test="food_price != null" >
+                food_price,
+            </if>
+            <if test="food_sale != null" >
+                food_sale,
+            </if>
+            <if test="food_order != null" >
+                food_order,
+            </if>
+            <if test="shopper_nick_name != null" >
+                shopper_nick_name,
+            </if>
+            <if test="food_image_name != null" >
+                food_image_name,
+            </if>
+            <if test="parent_food_id != null" >
+                parent_food_id,
+            </if>
+            <if test="is_parent != null" >
+                is_parent,
+            </if>
+            <if test="add_time != null" >
+                add_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="food_name != null" >
+                #{food_name},
+            </if>
+            <if test="food_desc != null" >
+                #{food_desc},
+            </if>
+            <if test="food_price != null" >
+                #{food_price},
+            </if>
+            <if test="food_sale != null" >
+                #{food_sale},
+            </if>
+            <if test="food_order != null" >
+                #{food_order},
+            </if>
+            <if test="shopper_nick_name != null" >
+                #{shopper_nick_name},
+            </if>
+            <if test="food_image_name != null" >
+                #{food_image_name},
+            </if>
+            <if test="parent_food_id != null" >
+                #{parent_food_id},
+            </if>
+            <if test="is_parent != null" >
+                #{is_parent},
+            </if>
+            <if test="add_time != null" >
+                #{add_time},
+            </if>
+
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.elon.entity.Food">
+        update food
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="food_name != null and food_name != ''">
+                food_name = #{food_name},
+            </if>
+            <if test="food_desc != null and food_desc != ''">
+                food_desc = #{food_desc},
+            </if>
+            <if test="food_price != null and food_price != ''">
+                food_price = #{food_price},
+            </if>
+            <if test="food_sale != null and food_sale != ''">
+                food_sale = #{food_sale},
+            </if>
+            <if test="food_order != null and food_order != ''">
+                food_order = #{food_order},
+            </if>
+            <if test="shopper_nick_name != null and food_order != ''">
+                shopper_nick_name = #{shopper_nick_name},
+            </if>
+            <if test="food_image_name != null and food_image_name != ''">
+                food_image_name = #{food_image_name},
+            </if>
+            <if test="parent_food_id != null and parent_food_id != ''">
+                parent_food_id = #{parent_food_id},
+            </if>
+             <if test="is_parent != null and is_parent != ''">
+                 is_parent = #{is_parent},
+            </if>
+             <if test="add_time != null and add_time != ''">
+                 add_time = #{add_time},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBigById" parameterType="java.lang.Integer">
+        DELETE FROM food WHERE id = #{foodId} OR parent_food_id = #{foodId}
+    </delete>
+</mapper>
